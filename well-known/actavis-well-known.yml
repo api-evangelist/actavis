@@ -1,0 +1,125 @@
+generated: '2026-09-13'
+method: probed
+source: >-
+  Direct HTTP probes of every host the Actavis record knows: the historic corporate
+  domains (actavis.com / www.actavis.com, actavis.us, actavis.co.uk) and the one live
+  Actavis-branded affiliate site (www.actavis.co.id).
+name: Actavis well-known discovery probe
+description: >-
+  Probe of the RFC 8615 /.well-known/ discovery surface plus the common agent-facing
+  discovery paths. NO document was served on any host. The historic Actavis corporate
+  domains no longer run a web server at all — DNS for actavis.com, actavis.us and
+  actavis.co.uk now answers from Teva nameservers (ns3/ns4/ns5.tevapharm.com) and
+  www.actavis.com resolves to 192.115.248.118, a Teva address that REFUSES TCP 443
+  (ECONNREFUSED) and drops TCP 80. The only reachable Actavis-branded host is
+  PT Actavis Indonesia's marketing site, which 404s every discovery path.
+  This file records a measured ABSENCE. No WellKnown or SecurityTxt pointer is wired
+  into apis.yml, because no path returned a real document.
+
+hosts:
+  - host: www.actavis.com
+    note: >-
+      Historic global Actavis corporate site. Resolves to 192.115.248.118 (Teva) but the
+      host refuses HTTPS (ECONNREFUSED) and does not answer HTTP. status 0 = no HTTP
+      response was ever received; this is a transport-level failure, not an HTTP code.
+    documents:
+      - path: /.well-known/security.txt
+        status: 0
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 0
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 0
+        file: null
+      - path: /.well-known/api-catalog
+        status: 0
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 0
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 0
+        file: null
+      - path: /.well-known/agent.json
+        status: 0
+        file: null
+
+  - host: actavis.us
+    note: >-
+      Delegated to ns3/ns4/ns5.tevapharm.com, resolves to the same Teva address, and does
+      not answer HTTP or HTTPS.
+    documents:
+      - path: /.well-known/security.txt
+        status: 0
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 0
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 0
+        file: null
+      - path: /.well-known/api-catalog
+        status: 0
+        file: null
+
+  - host: www.actavis.co.id
+    note: >-
+      PT Actavis Indonesia — a Teva affiliate and the only live Actavis-branded corporate
+      web surface found. Serves a pharmaceutical marketing site (HTTP 200, robots.txt and
+      sitemap.xml present) with no developer, API or technology section. Every discovery
+      path returns a genuine 404.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+
+other_probes:
+  - url: https://www.actavis.co.id/llms.txt
+    status: 404
+    note: No llms.txt published.
+  - url: https://www.actavis.co.id/openapi.json
+    status: 404
+    note: No OpenAPI at the site root.
+  - url: https://www.actavis.co.id/swagger.json
+    status: 404
+    note: No Swagger at the site root.
+  - url: https://www.actavis.co.id/robots.txt
+    status: 200
+    note: Served — ordinary marketing-site robots file, names no API or spec surface.
+  - url: https://api.github.com/orgs/actavis
+    status: 404
+    note: No GitHub organization named actavis exists.
+  - url: https://registry.npmjs.org/-/v1/search?text=actavis
+    status: 200
+    note: npm search returns total 0 — no first-party or third-party Actavis packages.
+  - url: https://actavis.bg/
+    status: 200
+    note: >-
+      Redirects to https://www.teva.bg/ — direct evidence that the Actavis brand estate
+      has been migrated onto Teva properties.
+  - url: https://www.actavis.is/
+    status: 301
+    note: >-
+      301s to http://www.sites.actavis.com/is/iceland, which is itself unreachable — a
+      dangling redirect into the retired corporate domain.
+
+checked: '2026-09-13'
